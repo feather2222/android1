@@ -29,7 +29,6 @@ import com.github.gotify.databinding.MessageItemBinding
 import com.github.gotify.databinding.MessageItemCompactBinding
 import com.github.gotify.messages.provider.MessageWithImage
 import io.noties.markwon.Markwon
-import java.text.DateFormat
 import java.time.OffsetDateTime
 import java.util.Date
 
@@ -158,9 +157,13 @@ internal class ListMessageAdapter(
                 val time = dateTime.toInstant().toEpochMilli()
                 val date = Date(time)
                 if (DateUtils.isToday(time)) {
-                    DateFormat.getTimeInstance(DateFormat.SHORT).format(date)
+                    android.text.format.DateFormat.getTimeFormat(itemView.context).format(date)
                 } else {
-                    DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.SHORT).format(date)
+                    val datePart = android.text.format.DateFormat.getDateFormat(itemView.context)
+                        .format(date)
+                    val timePart = android.text.format.DateFormat.getTimeFormat(itemView.context)
+                        .format(date)
+                    "$datePart $timePart"
                 }
             }
 
